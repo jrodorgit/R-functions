@@ -1,0 +1,49 @@
+# net.rodor.R
+
+jro_sd <- function(a) {
+
+	m <- mean(a)
+	res <- sqrt(sum( (a-m)**2)/length(a))
+	return( res )
+
+}
+
+jro_clt <- function(popul,numElemPop,numSamples=10,sizeSample=20) {
+
+	
+	minimo = min(popul)
+	maximo = max(popul)+1
+	population <- floor(runif(numElemPop,min=minimo,max=maximo))
+	
+	#media de la poblacion
+	print(paste('population mean:',mean(population)))
+
+	# sd sigma d ela poblacion
+	sigma <- jro_sd(population)
+	print(paste('sigma:',sigma))
+	
+	samplesm_v  <- mean(c(population[floor(runif(sizeSample,min=1,max=(numElemPop+1) ))]))
+	
+	cnt <- 1
+	repeat {
+		if(cnt == numSamples) {
+			break
+		}
+		samplesm_v <- append(samplesm_v,mean(c(population[floor(runif(sizeSample,min=1,max=(numElemPop+1) ))])))
+		cnt <- cnt+1
+   
+		
+	}
+	#media de las medias de las muestras.
+	print(paste('mean of samplesm:',mean(samplesm_v )))
+	
+	# desviacion estandar de las medias de la media de las muestras
+	SE <- jro_sd(samplesm_v)
+	print(paste('SE:',SE))
+	
+	
+	
+	print('comparando divison con raiz de sample size')
+	print(paste('sigma/SE:',sigma/SE))
+	print(paste('Sqrt(n)',sqrt(sizeSample)))
+}
