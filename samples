@@ -1,0 +1,347 @@
+# este es mi primer script en R
+print("Hola Jose... estoy a tus ordenes!")
+
+# check for class data type of a variable
+class(boleanoF)
+
+# ------------- VECTOR ----------------------------------
+
+# Vectors are one-dimension arrays that can hold numeric data, character data, or logical data
+my_vect_lo <- c(TRUE,FALSE)
+
+# You can give a name to the elements of a vector with the names() function
+some_vector <- c("Jonh Doe","Poker player")
+names(some_vector) <- c("name","profession")
+
+#It is important to know that if you sum two vectors in R, it takes the element-wise sum
+a <- c(1,2,3)
+b <- c(3,2,1)
+c <- a + b 
+c
+
+# sum() sums vector elements
+sum(a)
+
+#For example, to select the first element of the vector, you type poker_vector[1]
+a[1]
+
+# you can also select by name if you names() the vector elements.
+some_vector["name"]
+
+#To select multiple elements from a vector, you can add square brackets at the end of it. 
+#You can indicate between the brackets what elements should be selected. For example: suppose you want to select the first and the fifth day of the week: use the vector c(1, 3)
+a[c(1,3)]
+
+#Selecting multiple elements of poker_vector with c(2, 3, 4) is not very convenient. 
+#Many statisticians are lazy people by nature, so they created an easier way to do this: c(2, 3, 4) can be abbreviated to2:4
+a[2:3]
+
+#Selection by comparison . Devolvera un vector de datos logicos donde se resuelve elemento a elemento del vector si se cumple la comparacion o no.
+a >= 2
+
+roulette_vector <- c(-24, -50, 100, -350, 10)
+days_vector <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+names(roulette_vector) <- days_vector
+selection_vector <- roulette_vector > 0
+poker_winning_days <- roulette_vector[selection_vector]
+poker_winning_days
+
+# load vector form csv file
+klout_population <- read.csv(file = 'P:/R-scripts/Klout.csv',header=FALSE,colClasses = c("numeric"))
+
+
+
+# ------------------------------ MATRIX --------------------------------
+
+# matrix is a collection of elements of the same data type (numeric, character, or logical) arranged into a fixed number of rows and columns. 
+# Construct a matrix with 3 rows that contain the numbers 1 up to 9
+my_matrix <- matrix(1:9, byrow=TRUE, nrow=3)
+
+# Box office Star Wars (in millions!)
+new_hope <- c(460.998, 314.4)
+empire_strikes <- c(290.475, 247.900)
+return_jedi <- c(309.306, 165.8)
+
+# Construct matrix
+star_wars_matrix <- matrix(c(new_hope, empire_strikes, return_jedi), nrow = 3, byrow = TRUE)
+
+# Vectors region and titles, used for naming
+region <- c("US", "non-US")
+titles <- c("A New Hope", "The Empire Strikes Back", "Return of the Jedi")
+
+# Name the columns with region
+colnames(star_wars_matrix) <- region
+
+# Name the rows with titles
+rownames(star_wars_matrix) <- titles
+
+
+# Print out star_wars_matrix
+star_wars_matrix
+
+#the function rowSums() conveniently calculates the totals for each row of a matrix. This function creates a new vector
+rowSums(star_wars_matrix)
+
+#the function colSums() conveniently calculates the totals for each column of a matrix. This function creates a new vector
+colSums(star_wars_matrix)
+
+#You can add a column or multiple columns to a matrix with the cbind() function, which merges matrices and/or vectors together by column
+#You can add a row or multiple rows to a matrix with the rbind() function, which merges matrices and/or vectors together by rows
+worldwide_vector <- rowSums(star_wars_matrix)
+all_wars_matrix <- cbind(star_wars_matrix, worldwide_vector)
+all_wars_matrix
+colnames(all_wars_matrix) <- c(region,"Totales")
+
+#If you want to check out the contents of the workspace, you can type ls() in the console.
+ls()
+
+
+#Similar to vectors, you can use the square brackets [ ] to select one or multiple elements from a matrix
+star_wars_matrix[1,1]
+star_wars_matrix[,1]
+star_wars_matrix[1,]
+star_wars_matrix[1:2,1]
+
+#Similar to what you have learned with vectors, the standard operators like +, -, /, *, etc. work in an element-wise way on matrices in R.
+#Just like 2 * my_matrix multiplied every element of my_matrix by two, my_matrix1 * my_matrix2 creates a matrix 
+#where each element is the product of the corresponding elements in my_matrix1 and my_matrix2
+
+
+# ----------------- FACTOR ----------------------------------
+
+#The term factor refers to a statistical data type used to store categorical variables. 
+#The difference between a categorical variable and a continuous variable is that a categorical variable can belong to a limited number of categories.
+#A continuous variable, on the other hand, can correspond to an infinite number of values
+
+sex_vector <- c("Male","Female","Male","Male")
+sex_factor <- factor(sex_vector)
+sex_vector
+sex_factor
+
+#There are two types of categorical variables: a nominal categorical variable and an ordinal categorical variable.
+#A nominal variable is a categorical variable without an implied order. This means that it is impossible to say that 'one is worth more than the other'. 
+#For example, think of the categorical variable animals_vector with the categories "Elephant", "Giraffe", "Donkey" and "Horse". Here, it is impossible to say that one stands above or below the other. (Note that some of you might disagree ;-) ).
+#In contrast, ordinal variables do have a natural ordering. Consider for example the categorical variable temperature_vector 
+#with the categories: "Low", "Medium" and "High". Here it is obvious that "Medium" stands above "Low", and "High" stands above "Medium".
+
+# Animals
+animals_vector <- c("Elephant", "Giraffe", "Donkey", "Horse")
+factor_animals_vector <- factor(animals_vector)
+factor_animals_vector
+
+# Temperature
+temperature_vector <- c("High", "Low", "High","Low", "Medium")
+factor_temperature_vector <- factor(temperature_vector, order = TRUE, levels = c("Low", "Medium", "High"))
+factor_temperature_vector
+
+# Code to build factor_survey_vector
+survey_vector <- c("M", "F", "F", "M", "M")
+factor_survey_vector <- factor(survey_vector)
+
+# Specify the levels of factor_survey_vector
+levels(factor_survey_vector) <- c("Female", "Male")
+
+# a la hora de imprimir los valores del factor trasformara las M por Male y las F por FEMALE
+factor_survey_vector
+
+## resumen de info de un objeto
+summary(factor_survey_vector)
+
+#By setting the argument ordered to TRUE in the function factor(), 
+#you indicate that the factor is ordered. With the argument levels you give the values of the factor in the correct order
+factor_survey_vector <- factor(survey_vector, ordered = TRUE, levels = c("F","M"))
+
+# ---------------------------- FRAME --------------------
+
+#A data frame has the variables of a data set as columns and the observations as rows
+
+
+#the function head() enables you to show the first observations of a data frame. 
+#Similarly, the function tail() prints out the last observations in your data set.
+head(planets_df)
+
+#The function str() shows you the structure of your data set. For a data frame it tells you:
+str(planets_df)
+
+#Similar to vectors and matrices, you select elements from a data frame with the help of square brackets [ ]. 
+#By using a comma, you can indicate what to select from the rows and the columns respectively
+planets_df[,1]
+planets_df[1:3,"type"]
+planets_df$diameter
+planets_df[planets_df$rings,]
+
+#The first argument of subset() specifies the data set for which you want a subset. 
+#By adding the second argument, you give R the necessary information and conditions to select the correct subset
+subset(planets_df, subset = rings)
+subset(planets_df, subset = diameter > 1 & rotation > 0)
+
+#In data analysis you can sort your data according to a certain variable in the data set. 
+#In R, this is done with the help of the function order(). 
+#order() is a function that gives you the ranked position of each element when it is applied on a variable, such as a vector for example:
+order(myvectornum_v)
+myvectornum_v[order(myvectornum_v)]
+
+positions <-  order(planets_df$diameter)
+planets_df[positions,]
+
+
+# --------------------------LIST -------------------------------------
+
+#A list in R allows you to gather a variety of objects under one name (that is, the name of the list) in an ordered way. 
+#These objects can be matrices, vectors, data frames, even other lists, etc. 
+#It is not even required that these objects are related to each other in any way
+
+#Let us create our first list! To construct a list you use the function list()
+
+list(numpos,myvectornum_v)
+
+milista <- list( minumero = numpos, mivector = myvectornum_v)
+milista[[1]]
+milista[["minumero"]]
+milista$minumero
+
+milista <- c(milista, otromas = boleanoT)
+
+
+# ------ RELATIONAL OPERATOR --------
+
+# vector comparator
+# The linkedin and facebook vectors have already been created for you
+linkedin <- c(16, 9, 13, 5, 2, 17, 14)
+facebook <- c(17, 7, 5, 16, 8, 13, 14)
+
+# Popular days
+linkedin > 15
+
+# Quiet days
+linkedin <= 5
+
+# LinkedIn more popular than Facebook
+linkedin > facebook
+
+# matrix comparator
+# The social data has been created for you
+linkedin <- c(16, 9, 13, 5, 2, 17, 14)
+facebook <- c(17, 7, 5, 16, 8, 13, 14)
+views <- matrix(c(linkedin, facebook), nrow = 2, byrow = TRUE)
+
+# When does views equal 13?
+views == 13
+
+# When is views less than or equal to 14?
+views <= 14
+
+
+# logical comparator
+# & and , | or , ! reverse result
+linkedin > 10 & facebook < 10
+
+
+# ------------ CONTROL FLOW -------------------
+
+# IF ELSE
+#Keep in mind that R ignores the remainder of the control structure once a condition has been found that is TRUE 
+#and the corresponding expressions have been executed. 
+
+# Control structure for num_views
+num_views <- 9
+if (num_views > 15) {
+  print("You're popular!")
+  
+} else if (num_views <= 15 & num_views > 10) {
+  print("Your number of views is average")
+  
+} else {
+  print("Try to be more visible!")
+  
+}
+
+# WHILE LOOP
+cnt <- 1
+
+while (cnt < 10) {
+   print(cnt)
+   cnt = cnt + 1
+}
+
+# 	FOR
+for (i in 1:5) {
+    print(i^2)
+}
+
+v <- c(1,2,3)
+for ( i in v) {
+   
+   if (i == 2) {
+      next
+   }
+   print(i)
+}
+
+linkedin <- c(16, 9, 13, 5, 2, 17, 14)
+facebook <- c(17, 7, 5, 16, 8, 13, 14)
+views <- matrix(c(linkedin, facebook), nrow = 2, byrow = TRUE)
+for ( i in views) {
+   
+   if (i == 2) {
+      next
+   }
+   print(i)
+}
+
+
+
+# REPEAT LOOP
+cnt <- 2
+
+repeat {
+   print("hOLA")
+   cnt <- cnt+1
+   
+   if(cnt > 5) {
+      break
+   }
+}
+
+
+# ----- FUNCTIONS --------------------- 
+# Create a function with arguments.
+jro_multiplica <- function(a = 3, b = 6) {
+   result <- a * b
+   print(result)
+}
+jro_multiplica()
+jro_multiplica(4,5)
+jro_multiplica(a=4,b=5)
+jro_multiplica(b=4)
+
+# --------- PACKAGES ---------
+
+# library locations
+.libPaths() 
+
+#packages installed
+
+
+#Get all packages currently loaded in the R environment
+search()
+
+#Install a New Package
+install.packages("XML")
+# Load the package required to read XML files.
+library("XML")
+
+# Also load the other required package.
+library("methods")
+
+## noew you can use it
+result_file <- xmlParse(file = "P:/R-scripts/employee.xml")
+print(result_file)
+
+source("P:/R-scripts/netrodor_pack.txt")
+
+
+# ---------- APPLY FAMILY ---------------------------
+
+# apply. Si data es una matriz apply aplica la funcion mean a las filas (1) o a la columnas(2)
+apply(data,1,mean)
