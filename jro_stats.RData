@@ -1,0 +1,16 @@
+# funciones estadisticas net_rodor
+# para cargar el fichero source("E:/jrodor/R-samples/net_rodor/jro_stats.RData")
+
+
+jro_sd <- function(a) {
+
+	m <- mean(a)
+	res <- sqrt(sum( (a-m)**2)/length(a))
+	return( res )
+
+}
+
+jro_se <- function(population,sampleSize) {
+	sd <- jro_sd(population)
+	return ( sd / sqrt(sampleSize) )
+}

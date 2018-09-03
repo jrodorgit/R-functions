@@ -1,0 +1,7 @@
+#utilidades para ficheros
+
+#carga de fichero en Consola
+source("E:/jrodor/R-samples/net_rodor/jro_stats.RData")
+
+#lectura de fichero csv en frame
+MyData <- read.csv(file="E:/jrodor/R-samples/klout/Klout-data.csv", header=FALSE, sep=";")
