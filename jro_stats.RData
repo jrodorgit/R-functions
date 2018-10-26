@@ -14,3 +14,14 @@ jro_se <- function(population,sampleSize) {
 	sd <- jro_sd(population)
 	return ( sd / sqrt(sampleSize) )
 }
+
+
+jro_tst <- function(x1,x2,n1,n2,s1,s2) {
+
+	sp <- sqrt( ( ((n1-1)*(s1**2))+(((n2-1)*(s2**2))) ) / (n1+n2-2)  )
+	print(paste('sp:',sp))
+	print(paste('sp**2:',sp**2))
+	t <- (x1-x2)/(sp*sqrt((1/n1)+(1/n2)))
+	print(paste('t:',t))
+
+}
